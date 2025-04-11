@@ -1,3 +1,4 @@
+import logging
 from typing import Iterable
 from pathlib import Path
 import tifffile
@@ -7,13 +8,18 @@ from dask import delayed, compute
 from lamf_analysis.ophys import zstack
 
 
+logger = logging.getLogger(__name__)
+
+
 def sort_zstack_path(
     zstack_path: Path,
     output_dir: Path
 ):
+    logger.debug(f"Registering zstacks: {zstack_path=}")
     zstack_reg, channels_saved = zstack.register_local_zstack_from_raw_tif(
         zstack_path)
     for ch_ind, channel in enumerate(channels_saved):
+        logger.debug(f"Saving channel: {ch_ind=}")
         tifffile.imsave(
             output_dir / f"{zstack_path.stem}_reg_ch_{channel}.tif",
             zstack_reg[ch_ind]
@@ -68,6 +74,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="LAMF analysis entry point",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Run in verbose mode",
+    )
     # Create the subparser group
     subparsers = parser.add_subparsers(
         help="Available commands: sort_zstacks",
@@ -96,6 +107,11 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
 
     sort_zstacks(
         zstack_paths=args.zstack_paths,
