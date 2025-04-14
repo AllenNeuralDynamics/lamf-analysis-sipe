@@ -1,11 +1,12 @@
 @echo off
-SET ENV_NAME=lamf-analysis-sipe
+echo Current path is: %CD%
+SET ENV_NAME=lamf-analysis-sipe-311
 
 :: Check if environment exists
 conda env list | findstr /C:"%ENV_NAME%" >nul
 IF ERRORLEVEL 1 (
     echo Creating environment %ENV_NAME%...
-    conda create -n %ENV_NAME% python=3.9.5 -y
+    conda create -n %ENV_NAME% python=3.11 -y
 ) ELSE (
     echo Environment %ENV_NAME% already exists. Skipping creation.
 )

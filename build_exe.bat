@@ -1,1 +1,2 @@
-pyinstaller --onefile --name lamf_analysis --paths C:\Users\chrism\Anaconda3\envs\lamf-analysis-sipe\Lib\site-packages --add-binary "C:\Users\chrism\Anaconda3\envs\lamf-analysis-sipe\;." src\lamf_analysis\__main__.py
+echo Current path is: %CD%
+pyinstaller --onefile --name lamf_analysis src\lamf_analysis\__main__.py
