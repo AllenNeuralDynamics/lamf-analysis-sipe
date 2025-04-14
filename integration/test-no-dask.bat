@@ -1,0 +1,1 @@
+python dist/lamf_analysis.exe
