@@ -1,0 +1,1 @@
+dist\lamf_analysis.exe --verbose sort_zstacks --zstack_paths "\\allen\aind\scratch\SIPE\mesoscope-test\unsorted\1427719737_local_z_stack0.tiff" "\\allen\aind\scratch\SIPE\mesoscope-test\unsorted\1427719737_local_z_stack1.tiff" --output_dir "\\allen\aind\scratch\SIPE\mesoscope-test\no-dask"

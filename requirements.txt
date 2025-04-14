@@ -8,8 +8,9 @@ Pillow
 pystackreg
 scikit_image
 scipy
-tifffile
+tifffile==2025.1.10
 xarray
 dask[distributed]
 scanimage_tiff_reader
 seaborn==0.13.2
+scikit-image
