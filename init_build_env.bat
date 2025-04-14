@@ -6,7 +6,7 @@ SET ENV_NAME=lamf-analysis-sipe-3_10_9
 conda env list | findstr /C:"%ENV_NAME%" >nul
 IF ERRORLEVEL 1 (
     echo Creating environment %ENV_NAME%...
-    conda create -n %ENV_NAME% python=3.10.9 -y
+    CALL conda create -n %ENV_NAME% python=3.10.9 -y
 ) ELSE (
     echo Environment %ENV_NAME% already exists. Skipping creation.
 )
