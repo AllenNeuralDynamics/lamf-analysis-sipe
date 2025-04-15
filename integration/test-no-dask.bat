@@ -1,1 +1,1 @@
-python dist/lamf_analysis.exe
+python integration\workflow_integration.py

@@ -1,5 +1,12 @@
 import subprocess
-from typing import Iterable
+from typing import Iterable, Optional
+
+
+
+def _sort_local_zstacks(
+
+) -> subprocess.P:
+    pass
 
 
 def sort_local_zstacks(
@@ -7,18 +14,28 @@ def sort_local_zstacks(
     local_zstack_paths: Iterable[str],
     local_zstack_output_dir: str,
     use_dask: bool = False,
+    verbose: bool = False,
+    n_processes: Optional[int] = 1,
+    use_processes: bool = False,
 ):
     args = [
         local_zstack_sorter,
+    ]
+
+    if verbose:
+        args.append("--verbose")
+
+    args.extend([
         "sort_zstacks",
         "--zstack_paths",
         *local_zstack_paths,
         "--output_dir",
         str(local_zstack_output_dir),
-    ]
+    ])
 
     if use_dask:
         args.append("--use_dask")
+    
 
     return subprocess.run(args, check=True)
 
@@ -34,6 +51,11 @@ if __name__ == "__main__":
         "--use_dask",
         action="store_true",
         help="Use dask parallel processing.",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable verbose mode  for executable.",
     )
 
     args = parser.parse_args()
@@ -59,4 +81,5 @@ if __name__ == "__main__":
         local_zstacks,
         output_dir,
         args.use_dask,
+        args.verbose,
     )

@@ -59,16 +59,18 @@ def sort_zstacks(
             for zstack_path in zstack_paths
         ]
 
-    client = Client()
-    results = compute(*(
+    client = Client(processes=False)
+    tasks = [
         delayed(sort_zstack_path)(zstack_path, output_dir)
         for zstack_path in zstack_paths
-    ))
+    ]
+    results = compute(*tasks)
     client.close()
     return results
 
 
 if __name__ == "__main__":
+    import time
     import argparse
 
     parser = argparse.ArgumentParser(
@@ -114,8 +116,11 @@ if __name__ == "__main__":
     else:
         logger.setLevel(logging.INFO)
 
+    sort_start = time.time()
     sort_zstacks(
         zstack_paths=args.zstack_paths,
         output_dir=args.output_dir,
         use_dask=args.use_dask,
     )
+    sort_time = time.time() - sort_start
+    logger.debug(f"{sort_time=}")

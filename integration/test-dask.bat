@@ -1,1 +1,1 @@
-python dist/lamf_analysis.exe --use_dask
+python integration\workflow_integration.py --use_dask --verbose
