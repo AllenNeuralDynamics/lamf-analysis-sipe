@@ -20,13 +20,18 @@ def sort_zstack_path(
         logger.error(f"Zstack path does not exist: {zstack_path}")
         return
 
+    sorted_path = output_dir / f"{zstack_path.stem}_reg_ch_{channel}.tif"
+    if sorted_path.exists():
+        logger.error(f"Zstack path exists skipping: {zstack_path}")
+        return
+
     logger.debug(f"Registering zstacks: {zstack_path=}")
     zstack_reg, channels_saved = zstack.register_local_zstack_from_raw_tif(
         zstack_path)
     for ch_ind, channel in enumerate(channels_saved):
         logger.debug(f"Saving channel: {ch_ind=}")
         tifffile.imsave(
-            output_dir / f"{zstack_path.stem}_reg_ch_{channel}.tif",
+            sorted_path,
             zstack_reg[ch_ind]
         )
 
