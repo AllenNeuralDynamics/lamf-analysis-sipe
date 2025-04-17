@@ -15,6 +15,11 @@ def sort_zstack_path(
     zstack_path: Path,
     output_dir: Path
 ):
+    if not zstack_path.exists():
+        # TODO: move this logic to the mesoscope_workflow
+        logger.error(f"Zstack path does not exist: {zstack_path}")
+        return
+
     logger.debug(f"Registering zstacks: {zstack_path=}")
     zstack_reg, channels_saved = zstack.register_local_zstack_from_raw_tif(
         zstack_path)
