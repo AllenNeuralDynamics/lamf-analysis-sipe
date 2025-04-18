@@ -1,0 +1,65 @@
+name: Publish executable
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10.9']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+    - name: Update pip
+      run: python -m pip install --upgrade pip
+    - name: Install lamf_analysis
+      run: pip install -e .
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Install dev dependencies
+      run: pip install -r requirements-dev.txt
+    - name: Build executable
+      run: build_exe.bat
+    - name: Extract version
+      id: version
+      run: |
+        VERSION=$(grep -oP "(?<=version=')[^']+" setup.py)
+        echo "VERSION=$VERSION"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+    - name: Show version
+      run: echo "Version is ${{ steps.version.outputs.version }}"
+    - name: Create Git tag
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git tag -a v${{ steps.version.outputs.version  }} -m "v${{ steps.version.outputs.version }}"
+        git push origin v${{ steps.version.outputs.version  }}
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        release_name: ${{ steps.version.outputs.version }}
+        draft: false
+        prerelease: false
+    - uses: actions/upload-artifact@v3
+      with:
+        path: dist/*
+    - name: Upload exe release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/lamf_analysis.exe
+        asset_name: lamf_analysis.exe
+        asset_content_type: application/vnd.microsoft.portable-executable
