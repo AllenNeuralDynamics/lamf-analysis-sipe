@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lamf_analysis"
+version = "0.1.5"
+description = "TODO"
+authors = [
+    { name = "Matthew J. Davis", email = "mattjdavis@gmail.com" },
+]
+urls = { "Homepage" = "https://github.com/AllenNeuralDynamics/ophys-mfish-dev" }
+readme = "README.md"
+requires-python = "==3.10.9"
+dependencies = [
+    # You can leave this blank if you're using requirements.txt (see below)
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Optional: If you want to use requirements.txt for dependencies
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
