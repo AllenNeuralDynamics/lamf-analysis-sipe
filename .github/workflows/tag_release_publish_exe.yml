@@ -37,9 +37,11 @@ jobs:
       shell: cmd
     - name: Extract version
       id: version
+      shell: pwsh
       run: |
-        python -c "import tomli; print(f'version={tomli.load(open(\"pyproject.toml\", \"rb\"))[\"project\"][\"version\"]}')" >> $env:GITHUB_OUTPUT
-      shell: pwsh 
+        $version = python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])"
+        echo "VERSION=$version"
+        echo "version=$version" >> $env:GITHUB_OUTPUT
     - name: Show version
       run: echo "Version is ${{ steps.version.outputs.version }}"
     - name: Create Git tag
