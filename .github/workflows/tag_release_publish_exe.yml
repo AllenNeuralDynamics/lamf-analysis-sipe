@@ -38,7 +38,7 @@ jobs:
     - name: Extract version
       id: version
       run: |
-        python -c "import tomllib; print(f'version={tomllib.load(open(\"pyproject.toml\", \"rb\"))['project']['version']}')" >> $env:GITHUB_OUTPUT
+        python -c "import tomli; print(f'version={tomli.load(open(\"pyproject.toml\", \"rb\"))[\"project\"][\"version\"]}')" >> $env:GITHUB_OUTPUT
       shell: pwsh 
     - name: Show version
       run: echo "Version is ${{ steps.version.outputs.version }}"
