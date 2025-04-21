@@ -24,7 +24,7 @@ jobs:
         pip install --upgrade setuptools
         pip install --upgrade wheel
     - name: Install lamf_analysis
-      run: pip install . --no-use-pep517
+      run: pip install .
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Install dev dependencies
