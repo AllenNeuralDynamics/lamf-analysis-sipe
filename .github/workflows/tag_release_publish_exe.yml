@@ -32,7 +32,9 @@ jobs:
     - name: Install dev dependencies
       run: pip install -r requirements.dev.txt
     - name: Build executable
-      run: build_exe.bat
+      run: |
+          .\build_exe.bat
+      shell: cmd
     - name: Extract version
       id: version
       run: |
