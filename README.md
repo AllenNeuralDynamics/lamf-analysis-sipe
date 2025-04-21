@@ -14,6 +14,24 @@ Add these lines to a code ocean capusle docker file
     && pip install -e .
 ```
 
+## Executable
+This library can be bundled as an executable. Github actions should be enabled for this repository to build it on pushes to main. To build locally (only tested on windows 10 with anaconda and python 3.10.9 installed).
+
+Initialize build environment (may need to be called 2x)
+```bash
+init_build_env
+```
+
+Build executable
+```bash
+build_exe
+```
+
+Build debug executable (console logs will get displayed)
+```bash
+build_debug_exe
+```
+
 ## Contributing
 + Make a PR, tag a reviewer
 

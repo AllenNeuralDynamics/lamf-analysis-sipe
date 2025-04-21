@@ -38,9 +38,9 @@ jobs:
     - name: Extract version
       id: version
       run: |
-        VERSION=$(grep -oP "(?<=version=')[^']+" setup.py)
+        VERSION=$(grep -oP '(?<=^version = ")[^"]+' pyproject.toml)
         echo "VERSION=$VERSION"
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "version=$VERSION" >> $GITHUB_OUTPUT 
     - name: Show version
       run: echo "Version is ${{ steps.version.outputs.version }}"
     - name: Create Git tag
