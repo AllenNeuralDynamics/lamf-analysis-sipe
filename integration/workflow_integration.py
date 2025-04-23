@@ -93,6 +93,11 @@ if __name__ == "__main__":
         action="store_true",
         help="Use concurrent.futures to run multiple processes.",
     )
+    parser.add_argument(
+        "--number_of_processes",
+        type=int,
+        default=2,
+    )
 
     args = parser.parse_args()
 
@@ -122,7 +127,8 @@ if __name__ == "__main__":
     if args.use_multiprocess_pool:
         logger.info(f"Using multiprocess pool: {args.use_multiprocess_pool=}")
         logger.setLevel(logging.DEBUG)
-        sort_local_zstacks_parallel(*sort_args)
+        sort_local_zstacks_parallel(
+            *sort_args, n_processes=args.number_of_processes)
     else:
         sort_local_zstacks(*sort_args)
     end_time = time.time()
