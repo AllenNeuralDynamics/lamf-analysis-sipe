@@ -24,10 +24,14 @@ def sort_local_zstacks(
 
 
 if __name__ == "__main__":
-    import os
     import time
     import argparse
+    import pathlib
+    import logging
 
+    logging.basicConfig()
+
+    logger = logging.getLogger(__name__)
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -38,25 +42,27 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    local_zstacks = [
-        "C:/local-zstack-test/unsorted/1427719737_local_z_stack0.tiff",
-        "C:/local-zstack-test/unsorted/1427719737_local_z_stack1.tiff",
-    ]
-    # mesoscope_workflow-friendly way of creating tinestamped folders
-    output_dir_parts = ["C:/local-zstack-test/", ]
+    if (use_dask := args.use_dask):
+        logger.info(f"Using dask: {use_dask=}")
+    output_dir = (
+        pathlib.Path("C:/local-zstack-test/")
+        / ("dask" if use_dask else "no-dask")
+        / str(int(time.time()))
+    )
+    logger.info(f"Output directory: {output_dir=}")
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    if args.use_dask:
-        output_dir_parts.append("dask")
-    else:
-        output_dir_parts.append("no-dask")
-
-    output_dir_parts.append(str(int(time.time())))
-    output_dir = os.path.join(*output_dir_parts)
-    os.makedirs(output_dir, exist_ok=True)
-
+    start_time = time.time()
     sort_local_zstacks(
         "dist/lamf_analysis.exe",
-        local_zstacks,
-        output_dir,
+        [
+            "C:/local-zstack-test/unsorted/1427719737_local_z_stack0.tiff",
+            "C:/local-zstack-test/unsorted/1427719737_local_z_stack1.tiff",
+            "C:/local-zstack-test/unsorted/1427719737_local_z_stack2.tiff",
+            "C:/local-zstack-test/unsorted/1427719737_local_z_stack3.tiff",
+        ],
+        output_dir.as_posix(),
         args.use_dask,
     )
+    end_time = time.time()
+    logger.info(f"Sorting took {end_time - start_time:.2f} seconds")
