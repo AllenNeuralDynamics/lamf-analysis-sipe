@@ -29,14 +29,25 @@ def sort_local_zstacks(
     return subprocess.run(args, check=True)
 
 
-def chunk_list(input_list: list, chunk_size: int) -> list:
-    """Splits a list into chunks of a specified size.
+def split_list_into_chunks(
+    input_list: list[str],
+    num_chunks: int,
+) -> list[list[str]]:
     """
-    # Using list comprehension to chunk the input_list
-    return [
-        input_list[i:i + chunk_size]
-        for i in range(0, len(input_list), chunk_size)
-    ]
+    Splits a list into `num_chunks` approximately equal parts.
+    """
+    if num_chunks <= 0:
+        raise ValueError("Number of chunks must be greater than 0.")
+    
+    avg = len(input_list) / float(num_chunks)
+    chunks = []
+    last = 0.0
+
+    while last < len(input_list):
+        chunks.append(input_list[int(last):int(last + avg)])
+        last += avg
+
+    return chunks
 
 
 def sort_local_zstacks_parallel(
@@ -49,11 +60,10 @@ def sort_local_zstacks_parallel(
     """Uses concurrent.futures to run multiple lamf_analysis.exe sorting
      processes in parallel.
     """
-    _path_list = list(local_zstack_paths)
-    sort_tasks = [
-        _path_list[i:i + n_processes]
-        for i in range(0, len(_path_list), n_processes)
-    ]
+    sort_tasks = split_list_into_chunks(
+        list(local_zstack_paths),
+        n_processes,
+    )
     # Use ProcessPoolExecutor to run subprocesses concurrently
     with ProcessPoolExecutor() as executor:
         futures = [
