@@ -77,6 +77,7 @@ def sort_local_zstacks_parallel(
 
 
 if __name__ == "__main__":
+    import os
     import time
     import argparse
 
@@ -103,8 +104,12 @@ if __name__ == "__main__":
 
     if (use_dask := args.use_dask):
         logger.info(f"Using dask: {use_dask=}")
+    output_dir_root = os.environ.get(
+        "ZSTACK_OUTPUT_DIR_ROOT",
+        "C:/local-zstack-test/",
+    )
     output_dir = (
-        Path("C:/local-zstack-test/")
+        Path(output_dir_root)
         / ("dask" if use_dask else "no-dask")
         / str(int(time.time()))
     )
