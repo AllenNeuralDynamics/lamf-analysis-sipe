@@ -72,8 +72,8 @@ def sort_local_zstacks_parallel(
             try:
                 result = future.result()  # Will raise if subprocess.run failed
                 logger.debug(f"Subprocess completed successfully: {result}")
-            except subprocess.CalledProcessError as e:
-                logger.debug(f"Subprocess failed: {e}")
+            except subprocess.CalledProcessError:
+                logger.error("Subprocess failed", exc_info=True)
 
 
 if __name__ == "__main__":

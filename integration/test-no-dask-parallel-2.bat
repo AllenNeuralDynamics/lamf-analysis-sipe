@@ -1,1 +1,1 @@
-python integration/workflow_integration.py --use_multiprocess_pool
+python integration/local_zstack_sort.py --use_multiprocess_pool --number_of_processes 2

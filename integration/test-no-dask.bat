@@ -1,1 +1,1 @@
-python dist/lamf_analysis.exe
+python integration/local_zstack_sort.py
