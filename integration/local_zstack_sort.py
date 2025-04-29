@@ -38,7 +38,7 @@ def split_list_into_chunks(
     """
     if num_chunks <= 0:
         raise ValueError("Number of chunks must be greater than 0.")
-    
+
     avg = len(input_list) / float(num_chunks)
     chunks = []
     last = 0.0
