@@ -16,7 +16,7 @@ def sort_local_zstacks(
     verbose: bool = False,
 ):
     """
-    >>> non_dask_completed_process = sort_local_zstacks((
+    >>> non_dask_completed_process = sort_local_zstacks(
     ...  "dist/lamf_analysis.exe",
     ...  [
     ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack0.tiff",
@@ -25,7 +25,7 @@ def sort_local_zstacks(
     ...  Path("C:/local-zstack-test/sorted/no-dask"),
     ...  False,
     ... )
-    >>> dask_completed_process = sort_local_zstacks((
+    >>> dask_completed_process = sort_local_zstacks(
     ...  "dist/lamf_analysis.exe",
     ...  [
     ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack0.tiff",
