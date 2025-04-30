@@ -5,7 +5,6 @@ import tifffile
 from copy import deepcopy
 from dask.distributed import Client
 from dask import delayed, compute
-from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from lamf_analysis.ophys import zstack
 
