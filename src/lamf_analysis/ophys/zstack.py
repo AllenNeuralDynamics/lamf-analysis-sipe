@@ -438,7 +438,7 @@ def _register_stack(stack, total_num_frames, number_of_z_planes):
 def register_local_zstack_from_raw_tif(zstack_path: Union[Path, str]):
     """ Get registered z-stack, both within and between planes
     From raw tiff stack, meaning that we have to split first
-    
+
     Parameters
     ----------
     local_z_stack : np.ndarray (3D)
