@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lamf_analysis"
-version = "0.1.6"
+version = "0.1.7"
 description = "TODO"
 authors = [
     { name = "Matthew J. Davis", email = "mattjdavis@gmail.com" },
