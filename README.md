@@ -43,7 +43,7 @@ Expected testing environment (mocking mesoscope workflow environment as of 04/40
 Parametrization is determined via `pydantic-settings`, so a `.env` file can be used to further parametrize tests.
 
 ```bash
-python -m integration.test_local_zstack_sort_workflow_mock
+python -m integration.test_local_zstack_sort
 ```
 
 ## Contributing
