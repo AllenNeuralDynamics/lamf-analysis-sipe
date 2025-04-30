@@ -12,29 +12,6 @@ from lamf_analysis.ophys import zstack
 logger = logging.getLogger(__name__)
 
 
-# def split_list_into_chunks(
-#     input_list: list[str],
-#     num_chunks: int,
-# ) -> list[list[str]]:
-#     """
-#     Splits a list into `num_chunks` approximately equal parts.
-
-#     >>> 
-#     """
-#     if num_chunks <= 0:
-#         raise ValueError("Number of chunks must be greater than 0.")
-
-#     avg = len(input_list) / float(num_chunks)
-#     chunks = []
-#     last = 0.0
-
-#     while last < len(input_list):
-#         chunks.append(input_list[int(last):int(last + avg)])
-#         last += avg
-
-#     return chunks
-
-
 def sort_zstack_path(
     zstack_path: Path,
     output_dir: Path
@@ -64,10 +41,7 @@ def split_list_into_chunks(
     input_list: list[Any],
     num_chunks: int,
 ) -> list[list[Any]]:
-    """
-    Splits a list into `num_chunks` approximately equal parts.
-
-    >>> 
+    """Splits a list into `num_chunks` approximately equal parts.
     """
     if num_chunks <= 0:
         raise ValueError("Number of chunks must be greater than 0.")

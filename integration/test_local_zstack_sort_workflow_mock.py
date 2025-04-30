@@ -1,4 +1,6 @@
+import time
 import pathlib
+# from pydantic import computed_property
 from pydantic_settings import BaseSettings
 from .local_zstack_sort import sort_local_zstacks
 
@@ -16,6 +18,22 @@ class Settings(BaseSettings):
     use_dask: bool = False
     n_processes: int = 2
     verbose: bool = False
+
+
+# class TestSettings(Settings):
+
+#     local_zstack_sorter: str = "dist/lamf_analysis.exe"
+#     local_zstack_paths: list[str] = [
+#         "C:/local-zstack-test/unsorted/1427719737_local_z_stack0.tiff",
+#         "C:/local-zstack-test/unsorted/1427719737_local_z_stack1.tiff",
+#     ]
+#     local_zstack_output_dir_base: pathlib.Path = pathlib.Path(
+#         "C:/local-zstack-test/"
+#     )
+
+#     @computed_property
+#     def init_timestamp(self) -> str:
+#         return str(int(time.time()))
 
 
 if __name__ == "__main__":
