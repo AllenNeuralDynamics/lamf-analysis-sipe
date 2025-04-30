@@ -1,1 +1,0 @@
-dist\lamf_analysis.exe --help

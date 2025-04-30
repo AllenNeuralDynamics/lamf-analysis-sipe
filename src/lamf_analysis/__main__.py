@@ -41,10 +41,7 @@ def split_list_into_chunks(
     input_list: list[Any],
     num_chunks: int,
 ) -> list[list[Any]]:
-    """
-    Splits a list into `num_chunks` approximately equal parts.
-
-    >>> 
+    """Splits a list into `num_chunks` approximately equal parts.
     """
     if num_chunks <= 0:
         raise ValueError("Number of chunks must be greater than 0.")
