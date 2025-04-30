@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional
 from pathlib import Path
 import tifffile
 from copy import deepcopy
@@ -10,29 +10,6 @@ from lamf_analysis.ophys import zstack
 
 
 logger = logging.getLogger(__name__)
-
-
-# def split_list_into_chunks(
-#     input_list: list[str],
-#     num_chunks: int,
-# ) -> list[list[str]]:
-#     """
-#     Splits a list into `num_chunks` approximately equal parts.
-
-#     >>> 
-#     """
-#     if num_chunks <= 0:
-#         raise ValueError("Number of chunks must be greater than 0.")
-
-#     avg = len(input_list) / float(num_chunks)
-#     chunks = []
-#     last = 0.0
-
-#     while last < len(input_list):
-#         chunks.append(input_list[int(last):int(last + avg)])
-#         last += avg
-
-#     return chunks
 
 
 def sort_zstack_path(
@@ -86,8 +63,7 @@ def split_list_into_chunks(
 def sort_zstacks(
     zstack_paths: Iterable[Path],
     output_dir: Path,
-    use_dask: bool = False,
-    n_processes: int = 2,
+    n_threads: Optional[int] = None,
 ):
     """
     >>> zstack_paths = [
@@ -113,20 +89,20 @@ def sort_zstacks(
     """
     zstack_paths = list(zstack_paths)
     logger.debug(f"Sorting zstacks: {zstack_paths=}")
-    if not use_dask:
+    if n_threads is None:
+        logger.debug(f"Not using dask threading: {n_threads=}")
         return [
             sort_zstack_path(zstack_path, output_dir)
             for zstack_path in zstack_paths
         ]
 
-    client = Client(
-        processes=False,  # use threads
-    )
+    logger.debug(f"Using dask threading: {n_threads=}")
+    client = Client(processes=False)  # use threads
     results = compute(*(
-        delayed(sort_zstacks)(zstack_paths_chunk, output_dir, False)
+        delayed(sort_zstacks)(zstack_paths_chunk, output_dir)
         for zstack_paths_chunk in split_list_into_chunks(
             deepcopy(zstack_paths),
-            n_processes,
+            n_threads,
         )
     ))
     client.close()
@@ -166,15 +142,10 @@ if __name__ == "__main__":
         help="Output directory for sorted zstacks",
     )
     sort_parser.add_argument(
-        "--use_dask",
-        action="store_true",
-        help="Run in dry run mode",
-    )
-    sort_parser.add_argument(
-        "--n_processes",
+        "--n_threads",
         type=int,
-        default=2,
-        help="Number of processes to use for sorting",
+        default=None,
+        help="Number of dask threads to use for sorting.",
     )
 
     args = parser.parse_args()
@@ -188,6 +159,5 @@ if __name__ == "__main__":
     sort_zstacks(
         zstack_paths=args.zstack_paths,
         output_dir=args.output_dir,
-        use_dask=args.use_dask,
-        n_processes=args.n_processes,
+        n_threads=args.n_threads,
     )
