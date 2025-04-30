@@ -1,6 +1,6 @@
 import pathlib
 from pydantic_settings import BaseSettings
-from integration.local_zstack_sort import sort_local_zstacks
+from .local_zstack_sort import sort_local_zstacks
 
 
 class Settings(BaseSettings):
@@ -11,7 +11,7 @@ class Settings(BaseSettings):
         "C:/local-zstack-test/unsorted/1427719737_local_z_stack1.tiff",
     ]
     local_zstack_output_dir: pathlib.Path = pathlib.Path(
-        "C:/local-zstack-test/sorted/no-dask"
+        "C:/local-zstack-test/no-dask"
     )
     use_dask: bool = False
     n_processes: int = 2

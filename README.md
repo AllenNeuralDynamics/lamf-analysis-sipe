@@ -32,6 +32,20 @@ Build debug executable (console logs will get displayed)
 build_debug_exe
 ```
 
+### Testing the executable
+
+Expected testing environment (mocking mesoscope workflow environment as of 04/40/2025):
+
+- python 3.9.5
+- windows 10 operating system
+- pydantic-settings
+
+Parametrization is determined via `pydantic-settings`, so a `.env` file can be used to further parametrize tests.
+
+```bash
+python -m integration.test_local_zstack_sort_workflow_mock
+```
+
 ## Contributing
 + Make a PR, tag a reviewer
 

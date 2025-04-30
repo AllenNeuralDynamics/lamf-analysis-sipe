@@ -16,27 +16,10 @@ def sort_local_zstacks(
     verbose: bool = False,
 ):
     """
-    >>> non_dask_completed_process = sort_local_zstacks(
-    ...  "dist/lamf_analysis.exe",
-    ...  [
-    ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack0.tiff",
-    ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack1.tiff",
-    ...  ],
-    ...  Path("C:/local-zstack-test/sorted/no-dask"),
-    ...  False,
-    ... )
-    >>> dask_completed_process = sort_local_zstacks(
-    ...  "dist/lamf_analysis.exe",
-    ...  [
-    ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack0.tiff",
-    ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack1.tiff",
-    ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack2.tiff",
-    ...   "C:/local-zstack-test/unsorted/1427719737_local_z_stack3.tiff",
-    ...  ],
-    ...  Path("C:/local-zstack-test/sorted/dask"),
-    ...  True,
-    ...  2,
-    ... )
+    Notes
+    -----
+    - Intended to be directly embedded as a file in the mesoscope_workflow
+    - mesoscope_workflow is a 3.9.5 python environment running on windows 10 (as of 043025)
     """
     args = [
         local_zstack_sorter,
