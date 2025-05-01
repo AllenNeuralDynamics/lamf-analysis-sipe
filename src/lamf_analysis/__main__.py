@@ -72,13 +72,14 @@ def sort_zstacks(
     >>> sort_zstacks(
     ...  zstack_paths,
     ...  no_dask_dir,
-    ...  use_dask=False)
+    ...  n_threads=None,
+    ... )
     >>> dask_dir = output_dir / "dask"
     >>> dask_dir.mkdir(exist_ok=True, parents=True)
     >>> sort_zstacks(
     ...  zstack_paths,
     ...  dask_dir,
-    ...  use_dask=True)
+    ...  n_threads=2)
     """
     zstack_paths = list(zstack_paths)
     logger.debug(f"Sorting zstacks: {zstack_paths=}")
