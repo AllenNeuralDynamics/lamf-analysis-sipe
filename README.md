@@ -40,7 +40,7 @@ Expected testing environment (mocking mesoscope workflow environment as of 04/30
 - windows 10 operating system
 - pydantic-settings
 
-Parametrization is determined via `pydantic-settings`, so a `.env` file can be used to further parametrize tests.
+Parametrization is determined via `pydantic-settings`, so a `.env` file can be used to further parametrize tests. [^1]
 
 To run all tests
 
@@ -53,6 +53,8 @@ To run just mypy tests
 ```bash
 test_local_zstack_sort --only_mypy
 ```
+
+[^1]: Based on parametrization, some tests may take a large amount of time/resources (~13min runtime, ~8GB RAM).
 
 ## Contributing
 + Make a PR, tag a reviewer
