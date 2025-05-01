@@ -34,7 +34,7 @@ build_debug_exe
 
 ### Testing the executable
 
-Expected testing environment (mocking mesoscope workflow environment as of 04/40/2025):
+Expected testing environment (mocking mesoscope workflow environment as of 04/30/2025):
 
 - python 3.9.5
 - windows 10 operating system
@@ -42,8 +42,16 @@ Expected testing environment (mocking mesoscope workflow environment as of 04/40
 
 Parametrization is determined via `pydantic-settings`, so a `.env` file can be used to further parametrize tests.
 
+To run all tests
+
 ```bash
-python -m integration.test_local_zstack_sort
+test_local_zstack_sort
+```
+
+To run just mypy tests
+
+```bash
+test_local_zstack_sort --only_mypy
 ```
 
 ## Contributing
