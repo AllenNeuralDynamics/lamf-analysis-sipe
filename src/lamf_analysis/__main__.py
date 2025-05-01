@@ -14,16 +14,11 @@ logger = logging.getLogger(__name__)
 
 def sort_zstack_path(
     zstack_path: Path,
-    output_dir: Path
+    output_dir: Path,
+    dry_run: bool = False,
 ):
-    if not zstack_path.exists():
-        # TODO: move this logic to the mesoscope_workflow
-        logger.error(f"Zstack path does not exist: {zstack_path}")
-        return
-
-    sorted_stacks = list(output_dir.glob(f"{zstack_path.stem}*"))
-    if sorted_stacks:
-        logger.error(f"Sorted stacks already exist: {sorted_stacks}")
+    if dry_run:
+        logger.debug(f"Dry run enabled. Skipping sort: {dry_run=}")
         return
 
     logger.debug(f"Registering zstacks: {zstack_path=}")
@@ -61,6 +56,7 @@ def sort_zstacks(
     zstack_paths: Iterable[Path],
     output_dir: Path,
     n_threads: Optional[int] = None,
+    dry_run: bool = False,
 ):
     """
     >>> zstack_paths = [
@@ -89,14 +85,14 @@ def sort_zstacks(
     if n_threads is None:
         logger.debug(f"Not using dask threading: {n_threads=}")
         return [
-            sort_zstack_path(zstack_path, output_dir)
+            sort_zstack_path(zstack_path, output_dir, dry_run)
             for zstack_path in zstack_paths
         ]
 
     logger.debug(f"Using dask threading: {n_threads=}")
     client = Client(processes=False)  # use threads
     results = compute(*(
-        delayed(sort_zstacks)(zstack_paths_chunk, output_dir)
+        delayed(sort_zstacks)(zstack_paths_chunk, output_dir, dry_run)
         for zstack_paths_chunk in split_list_into_chunks(
             deepcopy(zstack_paths),
             n_threads,
@@ -144,6 +140,11 @@ if __name__ == "__main__":
         default=None,
         help="Number of dask threads to use for sorting.",
     )
+    sort_parser.add_argument(
+        "--dry_run",
+        action="store_true",
+        help="Run in dry run mode (no sorting).",
+    )
 
     args = parser.parse_args()
 
@@ -157,4 +158,5 @@ if __name__ == "__main__":
         zstack_paths=args.zstack_paths,
         output_dir=args.output_dir,
         n_threads=args.n_threads,
+        dry_run=args.dry_run,
     )
